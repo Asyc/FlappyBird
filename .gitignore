@@ -1,0 +1,8 @@
+# IDEA
+.idea/
+*.ipr
+*.iml
+
+# CMake
+cmake-build-debug/
+cmake-build-release/
