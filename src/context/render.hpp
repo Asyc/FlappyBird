@@ -31,7 +31,7 @@ class RenderContext {
 public:
     using DeviceFunction = std::function<vk::PhysicalDevice(const std::vector<vk::PhysicalDevice>&)>;
 
-    RenderContext(const ApplicationInfo& info, const Window& window, const DeviceFunction& deviceSelector = selectPhysicalDevice);
+    RenderContext(const ApplicationInfo& info, Window& window, const DeviceFunction& deviceSelector = selectPhysicalDevice);
 
     Swapchain& getSwapchain();
 private:

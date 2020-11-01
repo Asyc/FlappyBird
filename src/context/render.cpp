@@ -5,7 +5,7 @@
 
 #include <GLFW/glfw3.h>
 
-RenderContext::RenderContext(const ApplicationInfo& info, const Window& window, const DeviceFunction& deviceSelector) {
+RenderContext::RenderContext(const ApplicationInfo& info, Window& window, const DeviceFunction& deviceSelector) {
     uint32_t version = VK_MAKE_VERSION(info.version.major, info.version.minor, info.version.patch);
     vk::ApplicationInfo applicationInfo(info.title.data(), version, "No-Engine", version, VK_API_VERSION_1_2);
 
@@ -48,6 +48,12 @@ RenderContext::RenderContext(const ApplicationInfo& info, const Window& window, 
     m_PresentQueue = Queue{present.value(), m_Device->getQueue(present.value(), 0)};
 
     m_Swapchain = Swapchain(m_PhysicalDevice, *m_Device, *m_Surface, m_GraphicsQueue, m_PresentQueue);
+
+    window.setMetadata(this);
+    window.setResizeCallback([](Window& window, uint32_t width, uint32_t height){
+        auto* context = reinterpret_cast<RenderContext*>(window.getMetadata());
+        context->getSwapchain().createSwapchain(context->m_PhysicalDevice, *context->m_Surface);
+    });
 }
 
 Swapchain& RenderContext::getSwapchain() {
