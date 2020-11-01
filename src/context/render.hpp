@@ -7,6 +7,7 @@
 
 #include <vulkan/vulkan.hpp>
 
+#include "window/swapchain.hpp"
 #include "window/window.hpp"
 
 struct ApplicationInfo {
@@ -17,26 +18,34 @@ struct ApplicationInfo {
     const std::string_view& title;
 };
 
+struct Queue {
+    uint32_t m_Index;
+    vk::Queue m_Queue;
+
+    bool operator==(const Queue& rhs) const;
+    bool operator!=(const Queue& rhs) const;
+    const vk::Queue* operator->() const;
+};
+
 class RenderContext {
 public:
     using DeviceFunction = std::function<vk::PhysicalDevice(const std::vector<vk::PhysicalDevice>&)>;
-    static vk::PhysicalDevice selectPhysicalDevice(const std::vector<vk::PhysicalDevice>& devices);
 
     RenderContext(const ApplicationInfo& info, const Window& window, const DeviceFunction& deviceSelector = selectPhysicalDevice);
+
+    Swapchain& getSwapchain();
 private:
     vk::UniqueInstance m_Instance;
     vk::UniqueSurfaceKHR m_Surface;
 
     vk::PhysicalDevice m_PhysicalDevice;
     vk::UniqueDevice m_Device;
+    Queue m_GraphicsQueue, m_PresentQueue;
 
-    struct Queue {
-        uint32_t index;
-        vk::Queue m_Queue;
+    Swapchain m_Swapchain;
 
-        bool operator==(const Queue& rhs) const;
-        vk::Queue* operator->();
-    } m_GraphicsQueue, m_PresentQueue;
+
+    static vk::PhysicalDevice selectPhysicalDevice(const std::vector<vk::PhysicalDevice>& devices);
 };
 
 #endif //FLAPPYBIRD_RENDER_HPP

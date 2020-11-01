@@ -8,5 +8,5 @@ add_subdirectory(libs/glfw)
 
 include_directories(src)
 
-add_executable(FlappyBird src/main.cpp src/window/window.cpp src/window/window.hpp src/context/render.cpp src/context/render.hpp)
+add_executable(FlappyBird src/main.cpp src/window/window.cpp src/window/window.hpp src/context/render.cpp src/context/render.hpp src/window/swapchain.cpp src/window/swapchain.hpp)
 target_link_libraries(FlappyBird PUBLIC Vulkan::Vulkan glfw)

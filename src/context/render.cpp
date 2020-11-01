@@ -46,12 +46,26 @@ RenderContext::RenderContext(const ApplicationInfo& info, const Window& window, 
     m_Device = m_PhysicalDevice.createDeviceUnique(deviceCreateInfo);
     m_GraphicsQueue = Queue{graphics.value(), m_Device->getQueue(graphics.value(), 0)};
     m_PresentQueue = Queue{present.value(), m_Device->getQueue(present.value(), 0)};
+
+    m_Swapchain = Swapchain(m_PhysicalDevice, *m_Device, *m_Surface, m_GraphicsQueue, m_PresentQueue);
+}
+
+Swapchain& RenderContext::getSwapchain() {
+    return m_Swapchain;
 }
 
 vk::PhysicalDevice RenderContext::selectPhysicalDevice(const std::vector<vk::PhysicalDevice>& devices) {
     return devices[0];
 }
 
-vk::Queue* RenderContext::Queue::operator->() {
+bool Queue::operator==(const Queue& rhs) const {
+    return m_Index == rhs.m_Index;
+}
+
+bool Queue::operator!=(const Queue& rhs) const {
+    return m_Index != rhs.m_Index;
+}
+
+const vk::Queue* Queue::operator->() const {
     return &m_Queue;
 }
