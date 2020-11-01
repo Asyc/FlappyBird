@@ -3,14 +3,17 @@
 
 #include "window/window.hpp"
 #include "context/render.hpp"
+#include "render/shader.hpp"
 
-int main() {
+void run() {
     Window window(1920, 1080, "Window");
 
     RenderContext context(ApplicationInfo{{0, 1, 0}, ""}, window);
 
     auto last = std::chrono::high_resolution_clock::now();
     size_t updates = 0;
+
+    Shader shader = context.createShader("assets/shaders/standard");
 
     while (!window.shouldClose()) {
         Window::pollEvents();
@@ -26,4 +29,14 @@ int main() {
             updates = 0;
         }
     }
+}
+
+int main() {
+    try {
+        run();
+    } catch (const std::exception& ex) {
+        std::cerr << ex.what() << std::endl;
+        return -1;
+    }
+
 }

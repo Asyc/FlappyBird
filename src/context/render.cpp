@@ -52,8 +52,13 @@ RenderContext::RenderContext(const ApplicationInfo& info, Window& window, const 
     window.setMetadata(this);
     window.setResizeCallback([](Window& window, uint32_t width, uint32_t height){
         auto* context = reinterpret_cast<RenderContext*>(window.getMetadata());
-        context->getSwapchain().createSwapchain(context->m_PhysicalDevice, *context->m_Surface);
+        context->m_Device->waitIdle();
+        context->m_Swapchain.createSwapchain(context->m_PhysicalDevice, *context->m_Surface);
     });
+}
+
+Shader RenderContext::createShader(const std::string_view& path) {
+    return Shader(*m_Device, path);
 }
 
 Swapchain& RenderContext::getSwapchain() {

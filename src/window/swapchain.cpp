@@ -4,7 +4,7 @@
 
 #include "context/render.hpp"
 
-Swapchain::Swapchain(vk::PhysicalDevice physicalDevice, vk::Device device, vk::SurfaceKHR surface, const Queue& graphics, const Queue& present, const FormatSelector& formatSelector,
+Swapchain::Swapchain(vk::PhysicalDevice physicalDevice, vk::Device device, vk::SurfaceKHR surface, const Queue& graphics, const Queue& present, uint32_t maxImagesInFlight, const FormatSelector& formatSelector,
                      const PresentModeSelector& presentModeSelector)
         : m_Swapchain(vk::SwapchainKHR(nullptr), vk::ObjectDestroy<vk::Device, VULKAN_HPP_DEFAULT_DISPATCHER_TYPE>(device)),
           m_PresentMode(std::invoke(presentModeSelector, physicalDevice.getSurfacePresentModesKHR(surface))),
@@ -13,6 +13,7 @@ Swapchain::Swapchain(vk::PhysicalDevice physicalDevice, vk::Device device, vk::S
           m_QueueFamilyIndices({graphics.m_Index, present.m_Index}),
           m_GraphicsQueue(&graphics),
           m_PresentQueue(&present),
+          m_Flights(maxImagesInFlight),
           m_CurrentFlight(0) {
     vk::SurfaceCapabilitiesKHR capabilities = physicalDevice.getSurfaceCapabilitiesKHR(surface);
     m_ImageCount = std::clamp(capabilities.minImageCount + 1, capabilities.minImageCount, capabilities.maxImageCount);
@@ -69,7 +70,6 @@ void Swapchain::createSwapchain(vk::PhysicalDevice device, vk::SurfaceKHR surfac
         m_Images[i] = Image(i, m_Swapchain.getOwner(), *m_RenderPass, images[i], m_Format.format, m_Extent.width, m_Extent.height);
     }
 
-    m_Flights.resize(4);
     for (auto& m_Flight : m_Flights) {
         m_Flight = ImageFlight(m_Swapchain.getOwner(), *m_CommandPool);
     }

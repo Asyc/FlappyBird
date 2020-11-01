@@ -7,6 +7,8 @@
 
 #include <vulkan/vulkan.hpp>
 
+#include "render/shader.hpp"
+
 #include "window/swapchain.hpp"
 #include "window/window.hpp"
 
@@ -32,6 +34,8 @@ public:
     using DeviceFunction = std::function<vk::PhysicalDevice(const std::vector<vk::PhysicalDevice>&)>;
 
     RenderContext(const ApplicationInfo& info, Window& window, const DeviceFunction& deviceSelector = selectPhysicalDevice);
+
+    Shader createShader(const std::string_view& path);
 
     Swapchain& getSwapchain();
 private:

@@ -15,7 +15,7 @@ public:
     using PresentModeSelector = std::function<vk::PresentModeKHR(const std::vector<vk::PresentModeKHR>&)>;
 
     Swapchain() = default;
-    Swapchain(vk::PhysicalDevice physicalDevice, vk::Device device, vk::SurfaceKHR surface, const Queue& graphics, const Queue& present, const FormatSelector& formatSelector = selectFormat,
+    Swapchain(vk::PhysicalDevice physicalDevice, vk::Device device, vk::SurfaceKHR surface, const Queue& graphics, const Queue& present, uint32_t maxImagesInFlight = 4, const FormatSelector& formatSelector = selectFormat,
               const PresentModeSelector& presentModeSelector = selectPresentMode);
     ~Swapchain();
 

@@ -1,0 +1,8 @@
+#ifndef FLAPPYBIRD_PIPELINE_HPP
+#define FLAPPYBIRD_PIPELINE_HPP
+
+class Pipeline {
+
+};
+
+#endif //FLAPPYBIRD_PIPELINE_HPP

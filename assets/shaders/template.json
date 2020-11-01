@@ -1,0 +1,15 @@
+{
+  "entryPoint": "main",
+  "bindings": [
+    {"location": 0, "stride": 420}
+  ],
+  "attributes": [
+    {"binding": 0, "location": 0, "type": "float2", "offset": 0}
+  ],
+  "pushConstantRanges": [
+    {"shader": "vertex", "offset": 0, "size": 0}
+  ],
+  "descriptors": [
+    {"shader": "vertex", "binding": 0, "type": "uniform_buffer"}
+  ]
+}
