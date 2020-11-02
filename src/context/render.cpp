@@ -61,6 +61,10 @@ Shader RenderContext::createShader(const std::string_view& path) {
     return Shader(*m_Device, path);
 }
 
+Pipeline RenderContext::createPipeline(Shader&& shader) const {
+    return Pipeline(*m_Device, m_Swapchain.getRenderPass(), std::move(shader));
+}
+
 Swapchain& RenderContext::getSwapchain() {
     return m_Swapchain;
 }

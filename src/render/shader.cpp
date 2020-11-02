@@ -66,9 +66,11 @@ Shader::Shader(vk::Device device, const std::string_view& location) {
     Document metadata;
     metadata.Parse(data.c_str(), data.size());
 
+    m_EntryPoint = std::string(metadata["entryPoint"].GetString());
+
     m_ShaderStageCreateInfo = {
-            vk::PipelineShaderStageCreateInfo({}, vk::ShaderStageFlagBits::eVertex, *m_Vertex, metadata["entryPoint"].GetString(), nullptr),
-            vk::PipelineShaderStageCreateInfo({}, vk::ShaderStageFlagBits::eFragment, *m_Fragment, metadata["entryPoint"].GetString(), nullptr)
+            vk::PipelineShaderStageCreateInfo({}, vk::ShaderStageFlagBits::eVertex, *m_Vertex, m_EntryPoint.c_str(), nullptr),
+            vk::PipelineShaderStageCreateInfo({}, vk::ShaderStageFlagBits::eFragment, *m_Fragment, m_EntryPoint.c_str(), nullptr)
     };
 
     const auto& bindings = metadata["bindings"].GetArray();

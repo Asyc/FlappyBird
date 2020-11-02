@@ -27,6 +27,8 @@ public:
     void nextImage();
     void presentImage();
 
+    [[nodiscard]] vk::RenderPass getRenderPass() const;
+
     [[nodiscard]] vk::Extent2D getExtent() const;
     [[nodiscard]] vk::Format getFormat() const;
 private:

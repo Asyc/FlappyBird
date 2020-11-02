@@ -3,7 +3,6 @@
 
 #include "window/window.hpp"
 #include "context/render.hpp"
-#include "render/shader.hpp"
 
 void run() {
     Window window(1920, 1080, "Window");
@@ -13,7 +12,7 @@ void run() {
     auto last = std::chrono::high_resolution_clock::now();
     size_t updates = 0;
 
-    Shader shader = context.createShader("assets/shaders/standard");
+    Pipeline pipeline = context.createPipeline(context.createShader("assets/shaders/standard"));
 
     while (!window.shouldClose()) {
         Window::pollEvents();

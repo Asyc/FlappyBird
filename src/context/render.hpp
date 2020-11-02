@@ -7,6 +7,7 @@
 
 #include <vulkan/vulkan.hpp>
 
+#include "render/pipeline.hpp"
 #include "render/shader.hpp"
 
 #include "window/swapchain.hpp"
@@ -36,6 +37,7 @@ public:
     RenderContext(const ApplicationInfo& info, Window& window, const DeviceFunction& deviceSelector = selectPhysicalDevice);
 
     Shader createShader(const std::string_view& path);
+    Pipeline createPipeline(Shader&& shader) const;
 
     Swapchain& getSwapchain();
 private:

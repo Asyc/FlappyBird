@@ -105,6 +105,10 @@ void Swapchain::presentImage() {
     m_PresentQueue->m_Queue.presentKHR(vk::PresentInfoKHR(1, &*flight.m_RenderFinished, 1, &*m_Swapchain, &flight.m_BoundImage->m_Index));
 }
 
+vk::RenderPass Swapchain::getRenderPass() const {
+    return *m_RenderPass;
+}
+
 vk::Extent2D Swapchain::getExtent() const {
     return m_Extent;
 }

@@ -2,6 +2,7 @@
 #define FLAPPYBIRD_SHADER_HPP
 
 #include <array>
+#include <string>
 #include <string_view>
 #include <vector>
 
@@ -17,7 +18,10 @@ private:
     std::vector<vk::VertexInputAttributeDescription> m_VertexInputAttributeDescriptors;
     vk::UniquePipelineLayout m_Layout;
 
+    std::string m_EntryPoint;
     std::array<vk::PipelineShaderStageCreateInfo, 2> m_ShaderStageCreateInfo;
+
+    friend class Pipeline;
 };
 
 
